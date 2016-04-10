@@ -1,8 +1,12 @@
 package comp.example.zhouyunke.app;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Courier class.
@@ -13,9 +17,6 @@ import java.util.ArrayList;
  */
 public class Courier {
     private static String FIREBASE_URL = "https://incandescent-torch-2049.firebaseio.com/";
-
-    // His current orders to update order status?
-    private ArrayList<Order> orders = new ArrayList<>();
     // Restaurants to deliver from
     private ArrayList<String> restaurants = new ArrayList<>();
 
@@ -29,9 +30,6 @@ public class Courier {
         return this;
     }
 
-    public ArrayList getOrders() {
-        return orders;
-    }
 
     /**
      * Saves the courier with the chosen restaurants.
@@ -41,7 +39,9 @@ public class Courier {
     public String save() {
         Firebase couriers = new Firebase(FIREBASE_URL).child("couriers");
         Firebase ref = couriers.push();
-        ref.setValue(this);
+        HashMap<String, ArrayList> mapping = new HashMap<>();
+        mapping.put("restaurants", this.restaurants);
+        ref.setValue(mapping);
 
         return ref.getKey();
     }

@@ -5,16 +5,28 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * class OrderCallbackImpl implements OrderCallback{
- *     // implement custom callback, probably add item to list and notify adapter changes
+ * // implement custom callback, probably add item to list and notify adapter changes
  * }
  * OrderStore.subscribeToOrders(courierId, new OrderCallbackImpl)
  */
 public class OrderStore {
     private static String FIREBASE_URL = "https://incandescent-torch-2049.firebaseio.com/";
+    private final Firebase ref;
+    private String key;
 
-    public static void subscribeToOrders(String key, final OrderCallback callback) {
+    public OrderStore(String key) {
+        this.key = key;
+        Firebase orderRef = new Firebase(FIREBASE_URL).child("couriers").child(key).child("orders");
+        this.ref = orderRef;
+    }
+
+    public void subscribeToOrders(final OrderCallback callback) {
+        String key = this.key;
         Firebase orderRef = new Firebase(FIREBASE_URL).child("couriers").child(key).child("orders");
         orderRef.addChildEventListener(new ChildEventListener() {
             // Retrieve new posts as they are added to the database
@@ -47,5 +59,10 @@ public class OrderStore {
                 // SCREW YOU DONT DO THIS
             }
         });
+    }
+
+    public void addOrder(Order order) {
+        Firebase orderRef = this.ref.push();
+        orderRef.setValue(order);
     }
 }
