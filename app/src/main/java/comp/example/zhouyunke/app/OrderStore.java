@@ -5,6 +5,12 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+/**
+ * class OrderCallbackImpl implements OrderCallback{
+ *     // implement custom callback, probably add item to list and notify adapter changes
+ * }
+ * OrderStore.subscribeToOrders(courierId, new OrderCallbackImpl)
+ */
 public class OrderStore {
     private static String FIREBASE_URL = "https://incandescent-torch-2049.firebaseio.com/";
 
