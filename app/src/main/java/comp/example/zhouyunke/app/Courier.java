@@ -36,40 +36,6 @@ public class Courier {
         return orders;
     }
 
-    private void subscribeToOrders(String key) {
-        Firebase orderRef = new Firebase(FIREBASE_URL).child("couriers").child(key).child("orders");
-        final ArrayList<Order> orderList = this.orders;
-        orderRef.addChildEventListener(new ChildEventListener() {
-            // Retrieve new posts as they are added to the database
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                Order newOrder = snapshot.getValue(Order.class);
-                System.out.println(newOrder);
-                orderList.add(newOrder);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                // SCREW YOU DONT DO THIS
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // SCREW YOU DONT DO THIS
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                // SCREW YOU DONT DO THIS
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                // SCREW YOU DONT DO THIS
-            }
-        });
-    }
-
     /**
      * Saves the courier with the chosen restaurants.
      *
@@ -79,10 +45,7 @@ public class Courier {
         Firebase couriers = new Firebase(FIREBASE_URL).child("couriers");
         Firebase ref = couriers.push();
         ref.setValue(this);
-        String key = ref.getKey();
 
-        // Subscribe to orders so we can get orders later. is this efficient? probably not
-        subscribeToOrders(key);
-        return key;
+        return ref.getKey();
     }
 }
