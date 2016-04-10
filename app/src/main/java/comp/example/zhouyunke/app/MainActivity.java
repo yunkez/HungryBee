@@ -28,9 +28,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
-    private static String FIREBASE_URL = "https://incandescent-torch-2049.firebaseio.com/";
-    // initialize this somewhere
-    // Firebase firebase = new Firebase(FIREBASE_URL)
 
     ListView mDrawerList;
     ExpandableListView mOrderList;
